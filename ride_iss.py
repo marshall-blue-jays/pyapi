@@ -5,47 +5,52 @@ import urllib.request
 import json
 
 MAJORTOM = "http://api.open-notify.org/astros.json"
+LATLONG = "http://api.open-notify.org/iss-now.json"
 
 def main():
     """reading json from api"""
     # call the api
     groundctrl = urllib.request.urlopen(MAJORTOM)
+    posiss = urllib.request.urlopen(LATLONG)
 
     # strip off the attachement (JSON) and read it
     # the problem here, is that it will read out as a string
     helmet = groundctrl.read()
+    readpos = posiss.read()
 
     # show that at this point, our data is str
     # we want to convert this to list / dict
-    print(helmet)
+    # print(helmet)
 
     helmetson = json.loads(helmet.decode("utf-8"))
+    posissson = json.loads(readpos.decode("utf-8"))
 
     # this should say str
-    print(type(helmet))
+    # print(type(helmet))
 
     # this should say dict
-    print(type(helmetson))
+    # print(type(helmetson))
 
-    print(helmetson["number"])
+    # print(helmetson["number"])
 
     # this returns a LIST of the people on this ISS
-    print(helmetson["people"])
+    # print(helmetson["people"])
 
     # list the FIRST astro in the list
-    print(helmetson["people"][0])
+    # print(helmetson["people"][0])
 
     # list the SECOND astro in the list
-    print(helmetson["people"][1])
+    # print(helmetson["people"][1])
 
     # list the LAST astro in the list
-    print(helmetson["people"][-1])
+    # print(helmetson["people"][-1])
 
     # display every item in a list
     for astro in helmetson["people"]:
         # display what astro is
         print(astro)
-    print("People in space: " + str( len(helmetson["people"])))
+    print("People in space: " + str(len(helmetson["people"])))
+    print("The ISS is currently located at LONG: " + posissson["iss_position"]["longitude"] + " LAT: " +  posissson["iss_position"]["latitude"])
 
     # display every item in a list
     for astro in helmetson["people"]:
